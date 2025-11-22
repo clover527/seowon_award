@@ -1,0 +1,21 @@
+환경 변수 설정 가이드
+====================
+
+현재 화면에서 해야 할 일:
+
+1. 기존 예시 삭제 (있다면)
+   - EXAMPLE_NAME 행의 오른쪽 "-" 버튼 클릭
+
+2. "+ Add More" 버튼 클릭
+
+3. 첫 번째 변수:
+   Key: NODE_ENV
+   Value: production
+
+4. 다시 "+ Add More" 버튼 클릭
+
+5. 두 번째 변수:
+   Key: JWT_SECRET
+   Value: seowon-award-secret-key-2024-change-me-later
+
+6. 모든 변수 추가 후 "Deploy" 버튼 클릭!

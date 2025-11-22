@@ -54,7 +54,7 @@ export default async function handler(req, res) {
   return app(req, res)
 }
 
-// 일반 서버 실행 (로컬 개발용)
+// 일반 서버 실행 (로컬 개발 및 프로덕션)
 if (process.env.VERCEL !== '1') {
   initDatabase().then(() => {
     // 프로덕션 모드일 때 정적 파일 서빙 설정
@@ -63,23 +63,15 @@ if (process.env.VERCEL !== '1') {
       console.log('프로덕션 모드: 정적 파일 서빙 활성화')
     }
     
-    httpServer.listen(PORT, '0.0.0.0', () => {
-      console.log(`서버가 포트 ${PORT}에서 실행 중입니다`)
-      console.log(`로컬: http://localhost:${PORT}`)
-      if (!isProduction) {
-        console.log(`네트워크: http://192.168.219.106:${PORT}`)
-      }
+    const port = process.env.PORT || PORT
+    httpServer.listen(port, '0.0.0.0', () => {
+      console.log(`서버가 포트 ${port}에서 실행 중입니다`)
       console.log(`환경: ${isProduction ? '프로덕션' : '개발'}`)
       if (isProduction) {
         console.log(`✅ 900명이 접속할 수 있는 서버가 실행 중입니다!`)
       }
     })
   }).catch((error) => {
-    console.error('데이터베이스 초기화 실패:', error)
-  })
-} else {
-  // Vercel 환경에서는 데이터베이스 초기화만
-  initDatabase().catch((error) => {
     console.error('데이터베이스 초기화 실패:', error)
   })
 }
