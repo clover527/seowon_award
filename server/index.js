@@ -58,7 +58,8 @@ export default async function handler(req, res) {
 if (process.env.VERCEL !== '1') {
   initDatabase().then(() => {
     // 프로덕션 모드일 때 정적 파일 서빙 설정
-    if (isProduction) {
+    // Render.com이나 다른 클라우드 환경에서는 항상 정적 파일 서빙
+    if (isProduction || process.env.RENDER) {
       setupStaticFiles(app)
       console.log('프로덕션 모드: 정적 파일 서빙 활성화')
     }
@@ -67,6 +68,9 @@ if (process.env.VERCEL !== '1') {
     httpServer.listen(port, '0.0.0.0', () => {
       console.log(`서버가 포트 ${port}에서 실행 중입니다`)
       console.log(`환경: ${isProduction ? '프로덕션' : '개발'}`)
+      if (process.env.RENDER) {
+        console.log(`Render.com에서 실행 중`)
+      }
       if (isProduction) {
         console.log(`✅ 900명이 접속할 수 있는 서버가 실행 중입니다!`)
       }
