@@ -7,7 +7,7 @@
     "dev": "vite",
     "dev:server": "node server/index.js",
     "dev:all": "concurrently \"npm run dev:server\" \"npm run dev\"",
-    "build": "npm install && vite build",
+    "build": "vite build",
     "start": "NODE_ENV=production node server/index.js",
     "preview": "vite preview",
     "render-build": "npm install && npm run build"
