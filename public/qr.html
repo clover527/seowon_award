@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서원 시상식 접속</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        .qr-code {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+        }
+        .link {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            word-break: break-all;
+            font-size: 1.1rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+        .copy-button {
+            margin-top: 1rem;
+            padding: 0.75rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .copy-button:hover {
+            transform: translateY(-2px);
+        }
+        .info {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #e9ecef;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 서원 시상식</h1>
+        <p>QR 코드를 스캔하거나 링크를 복사하세요</p>
+        
+        <div id="qrcode" class="qr-code"></div>
+        
+        <div class="link" id="link">
+            http://192.168.219.106:3002
+        </div>
+        
+        <button class="copy-button" onclick="copyLink()">링크 복사</button>
+        
+        <div class="info">
+            <p><strong>접속 방법:</strong></p>
+            <p>1. QR 코드를 카메라로 스캔</p>
+            <p>2. 또는 위 링크를 복사하여 브라우저에 붙여넣기</p>
+            <p>3. 같은 Wi-Fi 네트워크에 연결되어 있어야 합니다</p>
+        </div>
+    </div>
+
+    <script>
+        // 현재 주소 가져오기
+        const currentUrl = window.location.origin;
+        const linkElement = document.getElementById('link');
+        linkElement.textContent = currentUrl;
+
+        // QR 코드 생성
+        new QRCode(document.getElementById("qrcode"), {
+            text: currentUrl,
+            width: 256,
+            height: 256,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        // 링크 복사
+        function copyLink() {
+            const link = linkElement.textContent;
+            navigator.clipboard.writeText(link).then(() => {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '복사 완료!';
+                button.style.background = '#28a745';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                }, 2000);
+            }).catch(err => {
+                alert('복사 실패: ' + err);
+            });
+        }
+    </script>
+</body>
+</html>

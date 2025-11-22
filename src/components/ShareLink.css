@@ -1,0 +1,145 @@
+.share-link-container {
+  margin: 1rem 0;
+}
+
+.qr-toggle-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.qr-toggle-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.qr-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.qr-content {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.qr-content h3 {
+  color: #667eea;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.qr-content p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.qr-image {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin: 1rem 0;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+}
+
+.link-display {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+  word-break: break-all;
+}
+
+.link-display code {
+  color: #667eea;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.copy-button,
+.share-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.copy-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.share-button {
+  background: #28a745;
+  color: white;
+}
+
+.copy-button:hover,
+.share-button:hover {
+  transform: translateY(-2px);
+}
+
+.help-text {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: #999;
+}
+
+@media (max-width: 480px) {
+  .qr-content {
+    padding: 1.5rem;
+  }
+  
+  .share-buttons {
+    flex-direction: column;
+  }
+  
+  .copy-button,
+  .share-button {
+    width: 100%;
+  }
+}

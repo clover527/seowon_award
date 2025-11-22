@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서원 시상식 접속</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .qr-code {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .link-box {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            word-break: break-all;
+        }
+        
+        .link-box code {
+            color: #667eea;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: white;
+        }
+        
+        .copy-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .share-btn {
+            background: #28a745;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .info {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e9ecef;
+            border-radius: 10px;
+            text-align: left;
+        }
+        
+        .info h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .info ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .info li {
+            padding: 0.5rem 0;
+            color: #555;
+        }
+        
+        .info li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 서원 월말 시상식</h1>
+        <p class="subtitle">QR 코드를 스캔하거나 링크를 복사하세요</p>
+        
+        <div id="qrcode" class="qr-code"></div>
+        
+        <div class="link-box">
+            <code id="link-text">로딩 중...</code>
+        </div>
+        
+        <div class="buttons">
+            <button class="copy-btn" onclick="copyLink()">📋 링크 복사</button>
+            <button class="share-btn" onclick="shareLink()" style="display:none;" id="share-btn">📤 공유하기</button>
+        </div>
+        
+        <div class="info">
+            <h3>💡 접속 방법</h3>
+            <ul>
+                <li>위의 QR 코드를 카메라로 스캔</li>
+                <li>또는 링크를 복사해서 브라우저에 붙여넣기</li>
+                <li>같은 Wi-Fi 네트워크에 연결되어 있어야 합니다</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // 현재 주소 가져오기
+        const currentUrl = window.location.origin;
+        document.getElementById('link-text').textContent = currentUrl;
+
+        // QR 코드 생성
+        new QRCode(document.getElementById("qrcode"), {
+            text: currentUrl,
+            width: 300,
+            height: 300,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        // 공유 버튼 표시 (모바일에서만)
+        if (navigator.share) {
+            document.getElementById('share-btn').style.display = 'block';
+        }
+
+        // 링크 복사
+        function copyLink() {
+            navigator.clipboard.writeText(currentUrl).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사 완료!';
+                btn.style.background = '#28a745';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                }, 2000);
+            }).catch(err => {
+                alert('복사 실패: ' + err);
+            });
+        }
+
+        // 공유하기
+        async function shareLink() {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: '서원 시상식',
+                        text: '서원 월말 시상식 앱에 접속하세요!',
+                        url: currentUrl
+                    });
+                } catch (err) {
+                    if (err.name !== 'AbortError') {
+                        copyLink();
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
