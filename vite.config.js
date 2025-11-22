@@ -7,6 +7,18 @@ export default defineConfig({
     port: 3000,
     host: true, // 모든 네트워크 인터페이스에서 접속 가능
     open: true
+  },
+  build: {
+    rollupOptions: {
+      external: []
+    },
+    commonjsOptions: {
+      include: [/node_modules/],
+      transformMixedEsModules: true
+    }
+  },
+  optimizeDeps: {
+    include: ['socket.io-client']
   }
 })
 
